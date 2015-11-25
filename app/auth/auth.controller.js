@@ -6,24 +6,22 @@ angular.module('loop')
 			email: '',
 			password: ''
 
+		};	
+//Log in
+		authCtrl.login = function(){
+			Auth.$authWithPassword(authCtrl.user).then(function (auth){
+				$state.go('home');
+			},	function (error) {
+				authCtrl.error = error;
+			});
+		}; 
+// Register
+		authCtrl.register = function (){
+			Auth.$createUser(authCtrl.user).then(function (user){
+				authCtrl.login();
+			}, function (error){
+				authCtrl.error = error;
+			});
 		};
 
-	});
-//Log in
-authCtrl.login = function(){
-	Auth.$authWithPassword(authCtrl.user).then(function (auth){
-		$state.go('home');
-	},	function (error) {
-		authCtrl.error = error;
-	});
-}; 
-
-// Register
-authCtrl.register = function (){
-	Auth.$createUser(authCtrl.user).then(function (user){
-		authCtrl.login();
-	}, function (error){
-		authCtrl.error = error;
-	});
-};
-
+});
